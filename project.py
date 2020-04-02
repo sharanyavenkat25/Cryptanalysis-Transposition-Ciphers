@@ -21,22 +21,25 @@ def encryptMessage(msg,key):
     fill_null = int((row * col) - msg_len) 
     msg_lst.extend('_' * fill_null) 
   
+    print(msg_lst)
     # create Matrix and insert message and  
     # padding characters row-wise  
     matrix = [msg_lst[i: i + col]  
               for i in range(0, len(msg_lst), col)] 
   
+    print(matrix)
     # read matrix column-wise using key 
     for _ in range(col): 
         curr_idx = key.index(key_lst[k_indx]) 
         cipher += ''.join([row[curr_idx]  
                           for row in matrix]) 
+        print(cipher)
         k_indx += 1
   
     return cipher 
   
 # Decryption 
-def decryptMessage(cipher,key): 
+def decryptMessage(cipher,key, flag = 0): 
     msg = "" 
   
     # track key indices 
@@ -73,20 +76,23 @@ def decryptMessage(cipher,key):
             dec_cipher[j][curr_idx] = msg_lst[msg_indx] 
             msg_indx += 1
         k_indx += 1
-  
+    #print(dec_cipher)
     # convert decrypted msg matrix into a string 
     try: 
         msg = ''.join(sum(dec_cipher, [])) 
     except TypeError: 
         raise TypeError("This program cannot", 
                         "handle repeating words.") 
+    if flag == 1:
+        return msg
+    
+    else:
+      null_count = msg.count('_') 
   
-    null_count = msg.count('_') 
+      if null_count > 0: 
+          return msg[: -null_count] 
   
-    if null_count > 0: 
-        return msg[: -null_count] 
-  
-    return msg 
+      return msg 
 
 def encryptRailFence(text, key): 
   
@@ -244,7 +250,7 @@ if __name__ == '__main__':
                 cipher1 = encryptMessage(msg,key1)
                 cipher = encryptMessage(cipher1,key2)
             else: 
-                cipher1 = decryptMessage(msg,key1) 
+                cipher1 = decryptMessage(msg,key1,1) 
                 cipher = decryptMessage(cipher1,key2)
         elif ans=="3":
             print("\n Rail Fence Cipher")
@@ -260,9 +266,11 @@ if __name__ == '__main__':
         else:
             print("\n Not Valid Choice Try again")
             exit()
-     
-        print("Encrypted Message: {}". 
+        if choice == "1":
+          print("Encrypted Message: {}". 
                    format(cipher)) 
-      
+        else:
+          print("Decrypted Message: {}". 
+                   format(cipher)) 
     
       
