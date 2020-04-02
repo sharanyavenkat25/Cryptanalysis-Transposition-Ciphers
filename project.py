@@ -1,6 +1,6 @@
 import math 
 
-def encryptMessage(msg): 
+def encryptMessage(msg,key): 
     cipher = "" 
   
     # track key indices 
@@ -36,7 +36,7 @@ def encryptMessage(msg):
     return cipher 
   
 # Decryption 
-def decryptMessage(cipher): 
+def decryptMessage(cipher,key): 
     msg = "" 
   
     # track key indices 
@@ -207,32 +207,35 @@ def decryptRailFence(cipher, key):
 if __name__ == '__main__':
     ans=True
     while ans:
-        msg=input("Please enter the message you wish to encrypt/decrypt below: ")
-        choice=input("Choose 1. Encryption 2. Decryption \n")
         print ("""
+
         1.Columnar Transposition
         2.Double Columnar Transposition
         3.Rail Fence Cipher
         4.Exit/Quit
         """)
-        ans=input("Please choose one of the above encryption methods: ") 
+        ans=input("Please choose one of the above encryption methods: ")
+        choice=input("Choose 1. Encryption 2. Decryption \n")
+        msg=input("Please enter the message you wish to encrypt/decrypt below: ")
         if ans=="1": 
             print("\n Columnar Transposition")
+            n=input("Please enter the key:")
             if choice=="1":
-                cipher = encryptMessage(msg)
+                cipher = encryptMessage(msg,n)
             else: 
-                cipher=decryptMessage(msg) 
+                cipher = decryptMessage(msg,n) 
         elif ans=="2":
             print("\n Double Columnar Transposition")
+            n=input("Please enter the key:")
             if choice=="1":
                 cipher = encryptMessage(msg)
             else: 
-                cipher=decryptMessage(msg) 
+                cipher = decryptMessage(msg) 
         elif ans=="3":
             print("\n Rail Fence Cipher")
             n=int(input("Please enter the key:"))
             if choice=="1":
-                cipher=encryptRailFence(msg, n)
+                cipher = encryptRailFence(msg, n)
             else: 
                 cipher = decryptRailFence(msg, n)
             
