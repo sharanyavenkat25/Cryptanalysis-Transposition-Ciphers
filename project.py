@@ -1,6 +1,6 @@
 import math 
 
-def encryptMessage(msg): 
+def encryptMessage(msg,key): 
     cipher = "" 
   
     # track key indices 
@@ -21,22 +21,25 @@ def encryptMessage(msg):
     fill_null = int((row * col) - msg_len) 
     msg_lst.extend('_' * fill_null) 
   
+    #print(msg_lst)
     # create Matrix and insert message and  
     # padding characters row-wise  
     matrix = [msg_lst[i: i + col]  
               for i in range(0, len(msg_lst), col)] 
   
+    #print(matrix)
     # read matrix column-wise using key 
     for _ in range(col): 
         curr_idx = key.index(key_lst[k_indx]) 
         cipher += ''.join([row[curr_idx]  
                           for row in matrix]) 
+        #print(cipher)
         k_indx += 1
   
     return cipher 
   
 # Decryption 
-def decryptMessage(cipher): 
+def decryptMessage(cipher,key, flag = 0): 
     msg = "" 
   
     # track key indices 
@@ -61,6 +64,7 @@ def decryptMessage(cipher):
     # create an empty matrix to  
     # store deciphered message 
     dec_cipher = [] 
+
     for _ in range(row): 
         dec_cipher += [[None] * col] 
   
@@ -73,20 +77,23 @@ def decryptMessage(cipher):
             dec_cipher[j][curr_idx] = msg_lst[msg_indx] 
             msg_indx += 1
         k_indx += 1
-  
+    #print(dec_cipher)
     # convert decrypted msg matrix into a string 
     try: 
         msg = ''.join(sum(dec_cipher, [])) 
     except TypeError: 
         raise TypeError("This program cannot", 
                         "handle repeating words.") 
+    if flag == 1:
+        return msg
+    
+    else:
+      null_count = msg.count('_') 
   
-    null_count = msg.count('_') 
+      if null_count > 0: 
+          return msg[: -null_count] 
   
-    if null_count > 0: 
-        return msg[: -null_count] 
-  
-    return msg 
+      return msg 
 
 def encryptRailFence(text, key): 
   
@@ -207,32 +214,51 @@ def decryptRailFence(cipher, key):
 if __name__ == '__main__':
     ans=True
     while ans:
-        msg=input("Please enter the message you wish to encrypt/decrypt below: ")
-        choice=input("Choose 1. Encryption 2. Decryption \n")
         print ("""
+
         1.Columnar Transposition
         2.Double Columnar Transposition
         3.Rail Fence Cipher
         4.Exit/Quit
         """)
-        ans=input("Please choose one of the above encryption methods: ") 
+        ans=input("Please choose one of the above encryption methods: ")
+        choice=input("Choose 1. Encryption 2. Decryption \n")
+        msg=input("Please enter the message you wish to encrypt/decrypt below: ")
         if ans=="1": 
-            print("\n Columnar Transposition")
+            print("\nColumnar Transposition")
+            n=input("  Please enter the key:")
             if choice=="1":
-                cipher = encryptMessage(msg)
+                cipher = encryptMessage(msg,n)
             else: 
-                cipher=decryptMessage(msg) 
+                cipher = decryptMessage(msg,n) 
         elif ans=="2":
-            print("\n Double Columnar Transposition")
+            print("\nDouble Columnar Transposition")
+            #output = "1"
+            #flag = 1
+            #while (output == "1" or output == "2") and flag == 1:
+            '''print("  Would you like to use the same key for both transpositions?")
+              output = input("  1 for YES or 2 for NO :")
+              if output == "1":
+                 key1 = key2 = input("  Enter the common key:")
+                 flag = 0
+              elif output == "2":
+                 key1 = input("  Enter the first key:")
+                 key2 = input("  Enter the second key:")
+                 flag = 0
+              else:
+                 print("Please enter a valid choice")'''
+            key = input("  Please enter the key:")
             if choice=="1":
-                cipher = encryptMessage(msg)
+                cipher1 = encryptMessage(msg,key)
+                cipher = encryptMessage(cipher1,key)
             else: 
-                cipher=decryptMessage(msg) 
+                cipher1 = decryptMessage(msg,key,1) 
+                cipher = decryptMessage(cipher1,key)
         elif ans=="3":
             print("\n Rail Fence Cipher")
             n=int(input("Please enter the key:"))
             if choice=="1":
-                cipher=encryptRailFence(msg, n)
+                cipher = encryptRailFence(msg, n)
             else: 
                 cipher = decryptRailFence(msg, n)
             
@@ -242,9 +268,11 @@ if __name__ == '__main__':
         else:
             print("\n Not Valid Choice Try again")
             exit()
-     
-        print("Encrypted Message: {}". 
+        if choice == "1":
+          print("Encrypted Message: {}". 
                    format(cipher)) 
-      
+        else:
+          print("Decrypted Message: {}". 
+                   format(cipher)) 
     
       
