@@ -21,19 +21,19 @@ def encryptMessage(msg,key):
     fill_null = int((row * col) - msg_len) 
     msg_lst.extend('_' * fill_null) 
   
-    print(msg_lst)
+    #print(msg_lst)
     # create Matrix and insert message and  
     # padding characters row-wise  
     matrix = [msg_lst[i: i + col]  
               for i in range(0, len(msg_lst), col)] 
   
-    print(matrix)
+    #print(matrix)
     # read matrix column-wise using key 
     for _ in range(col): 
         curr_idx = key.index(key_lst[k_indx]) 
         cipher += ''.join([row[curr_idx]  
                           for row in matrix]) 
-        print(cipher)
+        #print(cipher)
         k_indx += 1
   
     return cipher 
@@ -64,6 +64,7 @@ def decryptMessage(cipher,key, flag = 0):
     # create an empty matrix to  
     # store deciphered message 
     dec_cipher = [] 
+
     for _ in range(row): 
         dec_cipher += [[None] * col] 
   
@@ -232,10 +233,10 @@ if __name__ == '__main__':
                 cipher = decryptMessage(msg,n) 
         elif ans=="2":
             print("\nDouble Columnar Transposition")
-            output = "1"
-            flag = 1
-            while (output == "1" or output == "2") and flag == 1:
-              print("  Would you like to use the same key for both transpositions?")
+            #output = "1"
+            #flag = 1
+            #while (output == "1" or output == "2") and flag == 1:
+            '''print("  Would you like to use the same key for both transpositions?")
               output = input("  1 for YES or 2 for NO :")
               if output == "1":
                  key1 = key2 = input("  Enter the common key:")
@@ -245,13 +246,14 @@ if __name__ == '__main__':
                  key2 = input("  Enter the second key:")
                  flag = 0
               else:
-                 print("Please enter a valid choice")
+                 print("Please enter a valid choice")'''
+            key = input("  Please enter the key:")
             if choice=="1":
-                cipher1 = encryptMessage(msg,key1)
-                cipher = encryptMessage(cipher1,key2)
+                cipher1 = encryptMessage(msg,key)
+                cipher = encryptMessage(cipher1,key)
             else: 
-                cipher1 = decryptMessage(msg,key1,1) 
-                cipher = decryptMessage(cipher1,key2)
+                cipher1 = decryptMessage(msg,key,1) 
+                cipher = decryptMessage(cipher1,key)
         elif ans=="3":
             print("\n Rail Fence Cipher")
             n=int(input("Please enter the key:"))
