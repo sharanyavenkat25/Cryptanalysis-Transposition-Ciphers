@@ -214,6 +214,9 @@ def decryptRailFence(cipher, key):
 if __name__ == '__main__':
     ans=True
     while ans:
+        print("\t\t\t\t\t\t==========================================================")
+        print("\t\t\t\t\t\t\t\tTRANSPOSITION CIPHERS")
+        print("\t\t\t\t\t\t==========================================================")
         print ("""
 
         1.Columnar Transposition
