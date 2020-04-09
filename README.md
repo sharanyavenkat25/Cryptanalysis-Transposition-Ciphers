@@ -1,4 +1,3 @@
-# sharanyavenkat25
 ## Cryptanalysis of Transposition Ciphers
 
 ### Implements the following types of Transpositional Ciphers
